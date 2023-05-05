@@ -145,7 +145,7 @@ const FormWizard = () => {
 
         const subname = domainName + "-" + data.partnerName.split(' ')[0] + "-" + Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
 
-        await (await token.approve('0x377e53b8BB022Cc52CD27CE314F5D17DA5b52Be7', ethers.utils.parseEther(data.amount.toString()))).wait()
+        await (await token.approve('0x0C579a42587AbabB60dc668d5e4C1C8A50082484', ethers.utils.parseEther(data.amount.toString()))).wait()
         await (await registrar.buyInsurance(
           yourNode,
           partnerNode,

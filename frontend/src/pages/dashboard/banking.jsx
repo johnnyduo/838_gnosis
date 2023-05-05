@@ -146,9 +146,9 @@ const BankingPage = () => {
             <div className="flex-1">
               <h4 className="text-xl font-medium mb-2">
                 <span className="block font-light">Good evening,</span>
-                <span className="block">Mr.0xUser</span>
+                <span className="block">scb10x</span>
               </h4>
-              <p className="text-sm dark:text-slate-300">0xUser.earth</p>
+              <p className="text-sm dark:text-slate-300">scb10x.earth</p>
             </div>
           </div>
           <GroupChart5 />
@@ -203,7 +203,7 @@ const BankingPage = () => {
                   Deposit Amount (USD)
                 </span>
                 <Textinput
-                  placeholder="$6547"
+                  placeholder="$0"
                   id="cdp"
                   className="bg-transparent border-none focus:ring-0 focus:border-none p-0 text-slate-900 dark:text-white text-sm placeholder:text-slate-400 placeholder:font-medium  h-auto font-medium"
                   value={amount}

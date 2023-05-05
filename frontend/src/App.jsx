@@ -112,7 +112,7 @@ import FormKyc from "./pages/forms/form-kyc";
 import FormInsurance from "./pages/forms/form-insurance";
 import { useAccount } from "wagmi";
 import { useDispatch } from "react-redux";
-import { handleLogin } from "./pages/auth/common/store";
+import { handleLogin, handleLogout } from "./pages/auth/common/store";
 
 function App() {
   const { isConnected } = useAccount()
@@ -121,7 +121,7 @@ function App() {
 
   useEffect(() => {
     if (!isConnected) {
-      dispatch(handleLogin(false));
+      dispatch(handleLogout(false));
       navigate("/")
     }
   }, [isConnected])

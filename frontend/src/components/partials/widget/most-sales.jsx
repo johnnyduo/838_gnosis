@@ -44,16 +44,16 @@ const MostSales = ({ filterMap }) => {
         </h4>
         {filterMap === "usa" && (
           <div className="text-lg font-medium mb-[6px] dark:text-white text-slate-900">
-            12.99M Ton
+            52.4B Ton
           </div>
         )}
         {filterMap === "global" && (
           <div className="text-lg font-medium mb-[6px] dark:text-white text-slate-900">
-            12.99M Ton
+            52.4B Ton
           </div>
         )}
         <div className="text-xs font-light dark:text-slate-200">
-          <span className="text-primary-500">+45%</span> From last month
+          <span className="text-primary-500">+0.45&deg;C</span> From last month
         </div>
         <ul className="bg-slate-50 dark:bg-slate-900 rounded p-4 min-w-[184px] space-y-5 mt-4">
           {slaes.map((item, i) => (

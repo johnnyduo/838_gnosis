@@ -22,7 +22,7 @@ const ComingSoonPage = () => {
   useEffect(() => {
     if (isConnected) {
       dispatch(handleLogin(true));
-      navigate("/dashboard")
+      setTimeout(() => navigate("/dashboard"), 500)
     }
   }, [isConnected])
 

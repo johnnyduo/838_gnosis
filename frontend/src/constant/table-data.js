@@ -579,7 +579,7 @@ export const advancedTable = [
     id: 1,
     order: 951,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "3/26/2022",
@@ -605,7 +605,7 @@ export const advancedTable = [
     id: 3,
     order: 339,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "9/6/2021",
@@ -618,7 +618,7 @@ export const advancedTable = [
     id: 4,
     order: 365,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "11/7/2021",
@@ -631,7 +631,7 @@ export const advancedTable = [
     id: 5,
     order: 513,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "5/6/2022",
@@ -644,7 +644,7 @@ export const advancedTable = [
     id: 6,
     order: 534,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "2/14/2022",
@@ -657,7 +657,7 @@ export const advancedTable = [
     id: 7,
     order: 77,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "7/30/2022",
@@ -670,7 +670,7 @@ export const advancedTable = [
     id: 8,
     order: 238,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "6/30/2022",
@@ -683,7 +683,7 @@ export const advancedTable = [
     id: 9,
     order: 886,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "8/9/2022",
@@ -696,7 +696,7 @@ export const advancedTable = [
     id: 10,
     order: 3,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "8/4/2022",
@@ -709,7 +709,7 @@ export const advancedTable = [
     id: 11,
     order: 198,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "4/5/2022",
@@ -722,7 +722,7 @@ export const advancedTable = [
     id: 12,
     order: 829,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "8/9/2022",
@@ -735,7 +735,7 @@ export const advancedTable = [
     id: 13,
     order: 595,
     customer: {
-      name: "Jenny Wilson",
+      name: "SCB10x",
       image: customer1,
     },
     date: "2/10/2022",
