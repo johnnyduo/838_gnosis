@@ -6,14 +6,32 @@ import "./optidomains/DiamondResolverUtil.sol";
 
 bytes32 constant EARTH_RESOLVER_STORAGE = keccak256("838earth.resolver.EarthResolver");
 
+library EarthResolverStorage {
+    struct Layout {
+        mapping(bytes32 => bytes32) earth;
+    }
+
+    bytes32 internal constant STORAGE_SLOT =
+        keccak256('838earth.contracts.storage.EarthResolverStorage');
+
+    function layout() internal pure returns (Layout storage l) {
+        bytes32 slot = STORAGE_SLOT;
+        assembly {
+            l.slot := slot
+        }
+    }
+}
+
+// Fallback to use traditional mode
 contract EarthResolver is DiamondResolverUtil, IERC165 {
     function setEarthKyc(bytes32 node, bytes32 kycHash) public authorised(node) {
-        _attest(node, keccak256(abi.encodePacked(EARTH_RESOLVER_STORAGE)), abi.encode(kycHash));
+        EarthResolverStorage.Layout storage l = EarthResolverStorage.layout();
+        l.earth[node] = kycHash;
     }
 
     function earthKyc(bytes32 node) public view returns(bytes32) {
-        bytes memory response = _readAttestation(node, keccak256(abi.encodePacked(EARTH_RESOLVER_STORAGE)));
-        return response.length == 0 ? bytes32(0) : abi.decode(response, (bytes32));
+        EarthResolverStorage.Layout storage l = EarthResolverStorage.layout();
+        return l.earth[node];
     }
 
     function supportsInterface(

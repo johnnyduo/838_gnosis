@@ -52,8 +52,8 @@ contract EarthRegistrarController is Ownable, ERC1155Holder {
   IERC20 public immutable baseToken;
   InsuranceFactory public immutable factory;
 
-  AttestationStation public immutable attestationStation;
-  IOptiDomainsAttestation public immutable attestationDomain;
+  // AttestationStation public immutable attestationStation;
+  // IOptiDomainsAttestation public immutable attestationDomain;
 
   struct PartnerGoal {
     uint256 method;
@@ -82,8 +82,8 @@ contract EarthRegistrarController is Ownable, ERC1155Holder {
     INameWrapper _nameWrapper,
     IEarthResolver _resolver,
     IERC20 _baseToken,
-    InsuranceFactory _factory,
-    IOptiDomainsAttestation _attestation
+    InsuranceFactory _factory
+    // IOptiDomainsAttestation _attestation
   ) {
     operator = _operator;
     rootNode = _rootNode;
@@ -92,8 +92,8 @@ contract EarthRegistrarController is Ownable, ERC1155Holder {
     baseToken = _baseToken;
     factory = _factory;
 
-    attestationDomain = _attestation;
-    attestationStation = _attestation.attestationStation();
+    // attestationDomain = _attestation;
+    // attestationStation = _attestation.attestationStation();
   }
 
   function register(string calldata name, address owner, uint64 expiration, bytes32 kycHash, bytes calldata signature) public {
@@ -184,7 +184,7 @@ contract EarthRegistrarController is Ownable, ERC1155Holder {
       premium: premium
     });
 
-    attestationStation.attest(attestationDomain.buildAttestationData(node, INSURANCE_DETAIL, 4, abi.encode(insuranceDetail[node])));
+    // attestationStation.attest(attestationDomain.buildAttestationData(node, INSURANCE_DETAIL, 4, abi.encode(insuranceDetail[node])));
 
     baseToken.transferFrom(msg.sender, address(partnerGoal[partner].pool), premium);
 
@@ -208,8 +208,8 @@ contract EarthRegistrarController is Ownable, ERC1155Holder {
       premium: oldDetail.premium
     });
 
-    attestationStation.attest(attestationDomain.buildAttestationData(node, INSURANCE_DETAIL, 4, abi.encode(insuranceDetail[node])));
-    attestationStation.attest(msg.sender, INSURANCE_VALIDATION, abi.encode(msg.sender, node, acheivedTon));
+    // attestationStation.attest(attestationDomain.buildAttestationData(node, INSURANCE_DETAIL, 4, abi.encode(insuranceDetail[node])));
+    // attestationStation.attest(msg.sender, INSURANCE_VALIDATION, abi.encode(msg.sender, node, acheivedTon));
 
     emit AttestProgress(msg.sender, node, acheivedTon);
   }
