@@ -8,7 +8,9 @@ Secure the delivery risk to limit the global temperature increase to <2°C centi
 
 ## Contract Addresses
 
-We have deployed our contracts on multiple chains including Optimism Goerli Testnet, Polygon zkEVM Testnet, Gnosis Testnet
+We have deployed our contracts on multiple chains including Optimism Goerli, XDC Apothem Testnet, Polygon zkEVM Testnet, Gnosis Chiado
+
+For XDC Apothem Testnet, contract addresses prefix (0x) can be replaced with "xdc" to be XDC address.
 
 ### 838.Earth Insurance System
 
