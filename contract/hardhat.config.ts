@@ -55,6 +55,12 @@ const config: HardhatUserConfig = {
       chainId: 5,
       accounts: [privateKey]
     },
+
+		gnosis_testnet: {
+      url: "https://rpc.chiadochain.net",
+      chainId: 10200,
+      accounts: [privateKey]
+    },
   },
   namedAccounts: {
     deployer: {
