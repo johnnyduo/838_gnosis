@@ -13,7 +13,7 @@ import {
 import GlobalFilter from "./GlobalFilter";
 
 import customer1 from "@/assets/images/all-img/customer_1.png";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 
 const COLUMNS = [
   // {
@@ -173,8 +173,8 @@ const IndeterminateCheckbox = React.forwardRef(
   }
 );
 
-function buildDomainList(address) {
-  const domainList = JSON.parse(window.localStorage.getItem("838EARTH_INSURANCE_" + address) || "[]")
+function buildDomainList(address, chainId) {
+  const domainList = JSON.parse(window.localStorage.getItem("838EARTH_INSURANCE_" + chainId + "_" + address) || "[]")
   
   const data = []
 
@@ -194,8 +194,9 @@ function buildDomainList(address) {
 
 const ExampleThree = ({ title = "Advanced Table Two" }) => {
   const { address } = useAccount()
+  const { chain } = useNetwork()
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => buildDomainList(address), []);
+  const data = useMemo(() => buildDomainList(address, chain.id), []);
 
   const tableInstance = useTable(
     {

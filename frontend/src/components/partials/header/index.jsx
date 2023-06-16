@@ -56,7 +56,7 @@ const Header = ({ className = "custom-class" }) => {
   console.log(address)
 
   const { config: requestFaucetConfig } = usePrepareContractWrite({
-    address: '0x377e53b8BB022Cc52CD27CE314F5D17DA5b52Be7',
+    address: '0x838Ea7E80ce57D179b94b6b339cD5Df4f9Bd8Ff4',
     abi: [
       {
         "inputs": [
@@ -154,7 +154,7 @@ const Header = ({ className = "custom-class" }) => {
           ) : null}
           {/* Nav Tools  */}
           <div className="nav-tools flex items-center lg:space-x-6 space-x-3 rtl:space-x-reverse">
-            <button className="btn btn-dark" onClick={() => requestFaucet()}>Request Faucet</button>
+            <button className="btn btn-dark" onClick={() => requestFaucet()}>Faucet</button>
             {width >= breakpoints.md && <ConnectButton />}
             {width <= breakpoints.md && (
               <div

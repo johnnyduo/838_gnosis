@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import Select from "@/components/ui/Select";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useAccount, useContract, useSigner } from "wagmi";
+import { useAccount, useContract, useNetwork, useSigner } from "wagmi";
 import EarthRegistrarControllerABI from "./EarthRegistrarControllerABI.json";
 import { ethers } from "ethers";
 import { useNavigate } from "react-router-dom";
@@ -54,6 +54,8 @@ const FormWizard = () => {
   const navigate = useNavigate();
   const { data: signer } = useSigner();
   const { address } = useAccount();
+  const { chain } = useNetwork();
+  
   const [stepNumber, setStepNumber] = useState(0);
 
   // find current step schema
@@ -90,7 +92,7 @@ const FormWizard = () => {
   });
 
   const token = useContract({
-    address: '0x377e53b8BB022Cc52CD27CE314F5D17DA5b52Be7',
+    address: '0x838Ea7E80ce57D179b94b6b339cD5Df4f9Bd8Ff4',
     abi: [
       {
         "inputs": [
@@ -121,7 +123,7 @@ const FormWizard = () => {
   })
 
   const registrar = useContract({
-    address: '0x0C579a42587AbabB60dc668d5e4C1C8A50082484',
+    address: '0x838Ea5417b33Ba5Ba8e144F49739A81Ad2249Fb5',
     abi: EarthRegistrarControllerABI,
     signerOrProvider: signer,
   })
@@ -140,12 +142,12 @@ const FormWizard = () => {
 
         // console.log('Something')
         const domainName = data.username.split('.')[0]
-        const yourNode = ethers.utils.solidityKeccak256(['bytes32', 'bytes32'],  ['0x205f4a8557dd0db1ef6d10050f4306b94c7ebb3c4ae9ea761eb8dfafc1ed27d5', ethers.utils.keccak256(ethers.utils.toUtf8Bytes(domainName))])
-        const partnerNode = '0x162f5ffc792763318ce3a7e86a68be40fde356955d7bead8f7dce5c85c6d564b'
+        const yourNode = ethers.utils.solidityKeccak256(['bytes32', 'bytes32'],  ['0xf26e227cc695ab105ff1dd76fedea7a6fb88274144cc3afa6533ec7d7151b22a', ethers.utils.keccak256(ethers.utils.toUtf8Bytes(domainName))])
+        const partnerNode = '0x55ff964ed6f40299c384878cec0900fb91fc539607597c27a560eb1ba04419b5'
 
         const subname = domainName + "-" + data.partnerName.split(' ')[0] + "-" + Math.floor(Math.random() * 1000000).toString().padStart(6, '0')
 
-        await (await token.approve('0x0C579a42587AbabB60dc668d5e4C1C8A50082484', ethers.utils.parseEther(data.amount.toString()))).wait()
+        await (await token.approve('0x838Ea5417b33Ba5Ba8e144F49739A81Ad2249Fb5', ethers.utils.parseEther(data.amount.toString()))).wait()
         await (await registrar.buyInsurance(
           yourNode,
           partnerNode,
@@ -154,12 +156,12 @@ const FormWizard = () => {
           ethers.utils.parseEther(data.amount.toString()),
         )).wait()
 
-        const domainList = window.localStorage.getItem('838EARTH_INSURANCE_' + address) ? JSON.parse(window.localStorage.getItem('838EARTH_INSURANCE_' + address)) : [];
+        const domainList = window.localStorage.getItem('838EARTH_INSURANCE_' + chain.id + "_" + address) ? JSON.parse(window.localStorage.getItem('838EARTH_INSURANCE_' + chain.id + "_" + address)) : [];
         domainList.push({
           ...data,
           domainName: subname + '.' + domainName,
         })
-        window.localStorage.setItem('838EARTH_INSURANCE_' + address, JSON.stringify(domainList))
+        window.localStorage.setItem('838EARTH_INSURANCE_' + chain.id + "_" + address, JSON.stringify(domainList))
 
         navigate('/crm')
       } catch (err) {

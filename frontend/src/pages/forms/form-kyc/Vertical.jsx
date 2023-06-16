@@ -10,7 +10,7 @@ import Fileinput from "@/components/ui/Fileinput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Select from "@/components/ui/Select";
 import * as yup from "yup";
-import { useAccount, useContract, useContractWrite, usePrepareContractWrite, useSigner } from "wagmi";
+import { useAccount, useContract, useContractWrite, useNetwork, usePrepareContractWrite, useSigner } from "wagmi";
 import EarthRegistrarControllerABI from "./EarthRegistrarControllerABI.json"
 import { useNavigate } from "react-router-dom";
 
@@ -59,6 +59,7 @@ let socialSchema = yup.object().shape({
 const FormWizard = () => {
   const { address } = useAccount()
   const { data: signer } = useSigner()
+  const { chain } = useNetwork()
   const navigate = useNavigate()
 
   const [stepNumber, setStepNumber] = useState(0);
@@ -97,7 +98,7 @@ const FormWizard = () => {
   });
 
   const registrar = useContract({
-    address: '0x0C579a42587AbabB60dc668d5e4C1C8A50082484',
+    address: '0x838Ea5417b33Ba5Ba8e144F49739A81Ad2249Fb5',
     abi: EarthRegistrarControllerABI,
     signerOrProvider: signer,
   })
@@ -127,13 +128,13 @@ const FormWizard = () => {
   
         await tx.wait()
 
-        const domainList = window.localStorage.getItem('838EARTH_DOMAINS_' + address) ? JSON.parse(window.localStorage.getItem('838EARTH_DOMAINS_' + address)) : [];
+        const domainList = window.localStorage.getItem('838EARTH_DOMAINS_' + chain.id + "_" + address) ? JSON.parse(window.localStorage.getItem('838EARTH_DOMAINS_' + chain.id + "_" + address)) : [];
         domainList.push({
           companyName: data.username,
           ...data,
           domainName: domainName.split('.')[0],
         })
-        window.localStorage.setItem('838EARTH_DOMAINS_' + address, JSON.stringify(domainList))
+        window.localStorage.setItem('838EARTH_DOMAINS_' + chain.id + "_" + address, JSON.stringify(domainList))
 
         navigate('/crm')
       } catch (err) {

@@ -13,9 +13,10 @@ import SelectMonth from "@/components/partials/SelectMonth";
 import HomeBredCurbs from "./HomeBredCurbs";
 
 import Mainuser from "@/assets/images/all-img/main-user.png";
-import { useAccount, useContract, useSigner } from "wagmi";
+import { useAccount, useContract, useNetwork, useSigner } from "wagmi";
 import { toast } from "react-toastify";
 import { ethers } from "ethers";
+import Select from "../../components/ui/Select";
 const users = [
   {
     name: "Ab",
@@ -37,9 +38,12 @@ const users = [
 const BankingPage = () => {
   const { data: signer } = useSigner();
   const { address } = useAccount();
+  const { chain } = useNetwork();
   const [activeIndex, setActiveIndex] = useState(0);
   const [amount, setAmount] = useState('')
   const [shareReceived, setShareReceived] = useState('')
+  const [claimPool, setClaimPool] = useState('')
+  const [investments, setInvestments] = useState([])
 
   useEffect(() => {
     const share = Math.floor(parseFloat(amount) / (1 + Math.random() * 0.1)) || 0
@@ -47,7 +51,7 @@ const BankingPage = () => {
   }, [amount])
 
   const token = useContract({
-    address: '0x377e53b8BB022Cc52CD27CE314F5D17DA5b52Be7',
+    address: '0x838Ea7E80ce57D179b94b6b339cD5Df4f9Bd8Ff4',
     abi: [
       {
         "inputs": [
@@ -78,7 +82,7 @@ const BankingPage = () => {
   })
 
   const pool = useContract({
-    address: '0xC90372DA72d09c4F0eaBC08723FB9BDB44d11412',
+    address: '0x5b5F6B8731D5e4148E635AFcE90302F28c7A7BE6',
     abi: [
       {
         "inputs": [
@@ -104,22 +108,37 @@ const BankingPage = () => {
 
   const [loading, setLoading] = useState(false)
 
+  const refreshData = () => {
+    const data = window.localStorage.getItem('838EARTH_INVEST_' + chain.id + "_" + address) ? JSON.parse(window.localStorage.getItem('838EARTH_INVEST_' + chain.id + "_" + address)) : [];
+    setInvestments(data)
+  }
+
   const onSubmit = async () => {
+    if (!claimPool) {
+      window.alert("Please choose a claim pool")
+      return
+    }
+
     try {
       setLoading(true)
 
-      await (await token.approve('0xC90372DA72d09c4F0eaBC08723FB9BDB44d11412', ethers.utils.parseEther(amount.toString()))).wait()
+      await (await token.approve('0x5b5F6B8731D5e4148E635AFcE90302F28c7A7BE6', ethers.utils.parseEther(amount.toString()))).wait()
       await (await pool.deposit(
         address,
         ethers.utils.parseEther(amount.toString()),
       )).wait()
 
-      // const domainList = window.localStorage.getItem('838EARTH_INSURANCE_' + address) ? JSON.parse(window.localStorage.getItem('838EARTH_INSURANCE_' + address)) : [];
-      // domainList.push({
-      //   ...data,
-      //   domainName: subname + '.' + domainName,
-      // })
-      // window.localStorage.setItem('838EARTH_INSURANCE_' + address, JSON.stringify(domainList))
+      const investList = window.localStorage.getItem('838EARTH_INVEST_' + chain.id + "_" + address) ? JSON.parse(window.localStorage.getItem('838EARTH_INVEST_' + chain.id + "_" + address)) : [];
+      investList.push({
+        claimPool,
+        amount,
+        share: shareReceived,
+        type: "invest",
+        date: new Date(),
+      })
+      window.localStorage.setItem('838EARTH_INVEST_' + chain.id + "_" + address, JSON.stringify(investList))
+
+      refreshData()
 
       // navigate('/crm')
 
@@ -131,6 +150,10 @@ const BankingPage = () => {
       setLoading(false)
     }
   };
+
+  useEffect(() => {
+    refreshData()
+  }, [])
 
   return (
     <div className="space-y-5">
@@ -175,7 +198,65 @@ const BankingPage = () => {
                     View all
                   </Link>
                 </div>
-                <SimpleBar>
+
+                <Select
+                  options={[
+                    {
+                      value: "Afforestation 2025",
+                      label: "Afforestation 2025",
+                    },
+                    {
+                      value: "Afforestation 2030",
+                      label: "Afforestation 2030",
+                    },
+                    {
+                      value: "Afforestation 2040",
+                      label: "Afforestation 2040",
+                    },
+                    {
+                      value: "Afforestation 2050",
+                      label: "Afforestation 2050",
+                    },
+
+                    {
+                      value: "Hybrid 2025",
+                      label: "Hybrid 2025",
+                    },
+                    {
+                      value: "Hybrid 2030",
+                      label: "Hybrid 2030",
+                    },
+                    {
+                      value: "Hybrid 2040",
+                      label: "Hybrid 2040",
+                    },
+                    {
+                      value: "Hybrid 2050",
+                      label: "Hybrid 2050",
+                    },
+
+                    {
+                      value: "Tech 2025",
+                      label: "Tech 2025",
+                    },
+                    {
+                      value: "Tech 2030",
+                      label: "Tech 2030",
+                    },
+                    {
+                      value: "Tech 2040",
+                      label: "Tech 2040",
+                    },
+                    {
+                      value: "Tech 2050",
+                      label: "Tech 2050",
+                    },
+                  ]}
+                  onChange={e => setClaimPool(e.target.value)}
+                  value={claimPool}
+                ></Select>
+
+                {/* <SimpleBar>
                   <ul className="flex space-x-6 py-3 px-1">
                     {users.map((item, i) => (
                       <li
@@ -193,7 +274,7 @@ const BankingPage = () => {
                       </li>
                     ))}
                   </ul>
-                </SimpleBar>
+                </SimpleBar> */}
               </div>
               <div className="bg-slate-100 dark:bg-slate-900 rounded-md p-4">
                 <span
@@ -249,7 +330,7 @@ const BankingPage = () => {
         </div>
         <div className="lg:col-span-8 col-span-12">
           <div className="space-y-5 bank-table h-full">
-            <TransactionsTable />
+            <TransactionsTable data={investments} />
             {/* <Card title="History" headerslot={<SelectMonth />}>
               <div className="legend-ring4">
                 <HistoryChart />

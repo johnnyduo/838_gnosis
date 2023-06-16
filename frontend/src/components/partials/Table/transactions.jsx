@@ -15,26 +15,26 @@ import GlobalFilter from "../../../pages/table/react-tables/GlobalFilter";
 
 const COLUMNS = [
   {
-    Header: "Liquidity Provider",
-    accessor: "customer",
-    Cell: (row) => {
-      return (
-        <div>
-          <span className="inline-flex items-center">
-            <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
-              <img
-                src={row?.cell?.value.image}
-                alt=""
-                className="object-cover w-full h-full rounded-full"
-              />
-            </span>
-            <span className="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">
-              {row?.cell?.value.name}
-            </span>
-          </span>
-        </div>
-      );
-    },
+    Header: "Claim Pool",
+    accessor: "claimPool",
+    // Cell: (row) => {
+    //   return (
+    //     <div>
+    //       <span className="inline-flex items-center">
+    //         <span className="w-7 h-7 rounded-full ltr:mr-3 rtl:ml-3 flex-none bg-slate-600">
+    //           <img
+    //             src={row?.cell?.value.image}
+    //             alt=""
+    //             className="object-cover w-full h-full rounded-full"
+    //           />
+    //         </span>
+    //         <span className="text-sm text-slate-600 dark:text-slate-300 capitalize font-medium">
+    //           {row?.cell?.value.name}
+    //         </span>
+    //       </span>
+    //     </div>
+    //   );
+    // },
   },
   {
     Header: "date",
@@ -42,50 +42,67 @@ const COLUMNS = [
     Cell: (row) => {
       return (
         <span className="text-slate-500 dark:text-slate-400">
-          {row?.cell?.value}
-          <span className="inline-block ml-1">
+          {new Date(row?.cell?.value).toLocaleDateString()}
+          {/* <span className="inline-block ml-1">
             {Math.floor(Math.random() * 12) + 1}:
             {Math.floor(Math.random() * 60) + 1}
-          </span>
+          </span> */}
         </span>
       );
     },
   },
   {
-    Header: "HISTORY",
-    accessor: "quantity",
-    Cell: (row) => {
-      return (
-        <span className="text-slate-500 dark:text-slate-400">
-          <span className="block text-slate-600 dark:text-slate-300">
-            Transfer
-          </span>
-          <span className="block text-slate-500 text-xs">
-            Tx ID: 0x19134fk654...
-          </span>
-        </span>
-      );
-    },
+    Header: "type",
+    accessor: "type",
+    // Cell: (row) => {
+    //   return (
+    //     <span className="text-slate-500 dark:text-slate-400">
+    //       <span className="block text-slate-600 dark:text-slate-300">
+    //         Transfer
+    //       </span>
+    //       <span className="block text-slate-500 text-xs">
+    //         Tx ID: 0x19134fk654...
+    //       </span>
+    //     </span>
+    //   );
+    // },
   },
 
   {
     Header: "amount",
-    accessor: "status",
+    accessor: "amount",
     Cell: (row) => {
       return (
         <span className="block w-full">
           <span
             className={`${
-              row?.cell?.value === "paid" ? "text-success-500 " : ""
+              parseFloat(row?.cell?.value) >= 0 ? "text-success-500 " : ""
             } 
-            ${row?.cell?.value === "due" ? "text-warning-500 " : ""}
-            ${row?.cell?.value === "cancled" ? "text-danger-500" : ""}
+            ${parseFloat(row?.cell?.value) < 0 ? "text-danger-500 " : ""}
             
              `}
           >
-            {row?.cell?.value === "due" && <span>+$ 1,200.00</span>}
-            {row?.cell?.value === "paid" && <span>+$ 200.00</span>}
-            {row?.cell?.value === "cancled" && <span>+$ 1400.00</span>}
+            {row?.cell?.value}$
+          </span>
+        </span>
+      );
+    },
+  },
+  {
+    Header: "share",
+    accessor: "share",
+    Cell: (row) => {
+      return (
+        <span className="block w-full">
+          <span
+            className={`${
+              parseFloat(row?.cell?.value) >= 0 ? "text-success-500 " : ""
+            } 
+            ${parseFloat(row?.cell?.value) < 0 ? "text-danger-500 " : ""}
+            
+             `}
+          >
+            {row?.cell?.value}
           </span>
         </span>
       );
@@ -149,9 +166,9 @@ const actions = [
   },
 ];
 
-const TransactionsTable = () => {
+const TransactionsTable = ({ data }) => {
   const columns = useMemo(() => COLUMNS, []);
-  const data = useMemo(() => advancedTable, []);
+  // const data = useMemo(() => advancedTable, []);
 
   const tableInstance = useTable(
     {
